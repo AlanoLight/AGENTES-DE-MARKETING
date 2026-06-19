@@ -340,3 +340,19 @@ Arquivos do dashboard:
 2. playbooks por tipo de operacao e ticket
 3. base de referencias de marketing para treinar os agentes
 4. prompts por rotina semanal da operacao
+
+## Plataforma de Inteligencia (implementada)
+
+Foi adicionada uma implementacao real de plataforma orientada a dados em [platform/README.md](platform/README.md).
+
+Documentos de controle da migracao:
+
+- auditoria tecnica completa: [AUDITORIA_COMPLETA.md](AUDITORIA_COMPLETA.md)
+- consolidado da implementacao: [IMPLEMENTACAO_REALIZADA.md](IMPLEMENTACAO_REALIZADA.md)
+
+Pastas novas principais:
+
+- backend e engines: [platform/api](platform/api)
+- dashboard React: [platform/dashboard-app](platform/dashboard-app)
+- base SQLite: [database/README.md](database/README.md)
+- integracao de imagem: [integrations/image-generation/README.md](integrations/image-generation/README.md)
