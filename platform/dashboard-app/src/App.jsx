@@ -10,13 +10,17 @@ import {
   Legend
 } from "chart.js";
 import {
+  bootstrapPaulinhos,
   captureTrends,
   collectLinks,
   generateCaption,
   generateImage,
   generateStrategy,
   getCompetitorComparison,
-  getOverview
+  getOverview,
+  getSnapshots,
+  getTemporalComparison,
+  runRealMonitoring
 } from "./api";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -25,6 +29,8 @@ export default function App() {
   const [companyId, setCompanyId] = useState(1);
   const [overview, setOverview] = useState(null);
   const [comparison, setComparison] = useState(null);
+  const [snapshots, setSnapshots] = useState([]);
+  const [temporalRows, setTemporalRows] = useState([]);
   const [status, setStatus] = useState("Pronto para carregar dados.");
   const [links, setLinks] = useState({
     ownMenuUrl: "",
@@ -62,6 +68,10 @@ export default function App() {
     try {
       const data = await getOverview(companyId);
       setOverview(data);
+      const s = await getSnapshots(companyId);
+      setSnapshots(s.snapshots || []);
+      const t = await getTemporalComparison(companyId);
+      setTemporalRows(t.comparisons || []);
       setStatus("Visao geral atualizada.");
     } catch (error) {
       setStatus(`Falha no overview: ${error.message}`);
@@ -89,6 +99,60 @@ export default function App() {
       setStatus(`Falha na coleta: ${error.message}`);
     }
   }
+
+  async function runMonitoring() {
+    setStatus("Executando monitoramento real (APIs + links + snapshots)...");
+    try {
+      const competitorUrls = links.competitorUrls
+        .split("\n")
+        .map((x) => x.trim())
+        .filter(Boolean);
+
+      await runRealMonitoring({
+        companyId,
+        companyName: "Paulinhos Burguer",
+        ownMenuUrl: links.ownMenuUrl,
+        competitorUrls
+      });
+
+      const compare = await getCompetitorComparison(companyId);
+      setComparison(compare);
+      await loadOverview();
+      setStatus("Monitoramento real concluido.");
+    } catch (error) {
+      setStatus(`Falha no monitoramento: ${error.message}`);
+    }
+  }
+
+  async function runBootstrapPaulinhos() {
+    setStatus("Executando bootstrap automatico da Paulinhos...");
+    try {
+      const result = await bootstrapPaulinhos();
+      setCompanyId(result.company.id);
+      await loadOverview();
+      setStatus("Bootstrap da Paulinhos concluido com sucesso.");
+    } catch (error) {
+      setStatus(`Falha no bootstrap: ${error.message}`);
+    }
+  }
+
+  const temporalChart = useMemo(() => {
+    if (!temporalRows.length) {
+      return null;
+    }
+
+    const top = temporalRows.slice(0, 12);
+    return {
+      labels: top.map((x) => `${x.metric_name} #${x.id}`),
+      datasets: [
+        {
+          label: "Delta absoluto",
+          data: top.map((x) => x.delta_abs ?? 0),
+          backgroundColor: "rgba(255, 77, 47, 0.7)"
+        }
+      ]
+    };
+  }, [temporalRows]);
 
   async function runTrends() {
     setStatus("Capturando tendencias...");
@@ -163,6 +227,7 @@ export default function App() {
           <button onClick={loadOverview}>Atualizar KPIs</button>
           <button onClick={runTrends}>Capturar tendencias</button>
           <button onClick={runStrategy}>Gerar estrategia</button>
+          <button onClick={runBootstrapPaulinhos}>Bootstrap Paulinhos</button>
         </div>
       </section>
 
@@ -173,6 +238,8 @@ export default function App() {
           <article><span>Ativas</span><strong>{overview?.kpis?.activeCampaigns ?? 0}</strong></article>
           <article><span>Tendencias</span><strong>{overview?.kpis?.trendsCaptured ?? 0}</strong></article>
           <article><span>Concorrentes</span><strong>{overview?.kpis?.competitors ?? 0}</strong></article>
+          <article><span>Snapshots</span><strong>{overview?.kpis?.snapshots ?? 0}</strong></article>
+          <article><span>Comparacoes temporais</span><strong>{overview?.kpis?.temporalComparisons ?? 0}</strong></article>
         </div>
       </section>
 
@@ -193,11 +260,26 @@ export default function App() {
             placeholder="https://concorrente-1\nhttps://concorrente-2"
           />
           <button onClick={runCollection}>Coletar e comparar</button>
+          <button onClick={runMonitoring}>Monitoramento real completo</button>
         </div>
 
         <div>
           <h2>Comparacao visual</h2>
           {comparisonData ? <Bar data={comparisonData} /> : <p>Sem comparacao ainda.</p>}
+        </div>
+      </section>
+
+      <section className="card grid-2">
+        <div>
+          <h2>Historico de snapshots</h2>
+          <p>Total carregado: {snapshots.length}</p>
+          <div className="result-box">
+            <pre>{JSON.stringify(snapshots.slice(0, 20), null, 2)}</pre>
+          </div>
+        </div>
+        <div>
+          <h2>Comparacao temporal</h2>
+          {temporalChart ? <Bar data={temporalChart} /> : <p>Sem comparacao temporal ainda.</p>}
         </div>
       </section>
 

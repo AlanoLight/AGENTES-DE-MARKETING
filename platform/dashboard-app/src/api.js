@@ -14,6 +14,26 @@ export async function collectLinks(payload) {
   return data;
 }
 
+export async function runRealMonitoring(payload) {
+  const { data } = await api.post("/api/intelligence/monitor", payload);
+  return data;
+}
+
+export async function getSnapshots(companyId) {
+  const { data } = await api.get(`/api/intelligence/snapshots/${companyId}`);
+  return data;
+}
+
+export async function getTemporalComparison(companyId) {
+  const { data } = await api.get(`/api/intelligence/temporal/${companyId}`);
+  return data;
+}
+
+export async function bootstrapPaulinhos() {
+  const { data } = await api.post("/api/intelligence/bootstrap-paulinhos");
+  return data;
+}
+
 export async function getCompetitorComparison(companyId) {
   const { data } = await api.get(`/api/intelligence/competitors/${companyId}`);
   return data;
