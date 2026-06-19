@@ -6,6 +6,10 @@ agent: "Food Growth Master"
 ---
 Use o Food Growth Master para conduzir um plano integrado de growth em food service:
 
+Referencias de apoio:
+- [Playbook Paulinhos Burguer](../../playbooks/paulinhos-burguer-sombrio-sc.md)
+- [Kit de Referencias dos Agentes](../../playbooks/paulinhos-burguer-referencias-agentes.md)
+
 {{input}}
 
 Se faltarem dados, pergunte apenas o essencial:

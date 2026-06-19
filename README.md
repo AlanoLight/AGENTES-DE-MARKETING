@@ -110,9 +110,25 @@ Food Growth Master
 		briefing-paulinhos-burguer.prompt.md
 		briefing-pesquisa-mercado.prompt.md
 		briefing-seo-growth.prompt.md
+		paulinhos-analytics.prompt.md
+		paulinhos-consultor-ifood.prompt.md
+		paulinhos-conteudista.prompt.md
+		paulinhos-copywriter.prompt.md
+		paulinhos-crm-funil.prompt.md
+		paulinhos-design-criativo.prompt.md
+		paulinhos-engenheiro-cardapio.prompt.md
+		paulinhos-estrategista.prompt.md
+		paulinhos-food-growth-master.prompt.md
+		paulinhos-google-reviews.prompt.md
+		paulinhos-midia-paga.prompt.md
+		paulinhos-pesquisa-mercado.prompt.md
+		paulinhos-promocoes-food.prompt.md
+		paulinhos-seo-growth.prompt.md
+		paulinhos-whatsapp-delivery.prompt.md
 		post-paulinhos-comando-direto.prompt.md
 playbooks/
 	lancheria-hamburgueria.md
+	paulinhos-burguer-referencias-agentes.md
 	paulinhos-burguer-sombrio-sc.md
 ```
 
@@ -209,10 +225,33 @@ Se quiser entrar mais rapido no fluxo, use o prompt [.github/prompts/briefing-la
 Foi adicionado um material especifico da marca para acelerar as campanhas:
 
 - playbook da marca: [playbooks/paulinhos-burguer-sombrio-sc.md](playbooks/paulinhos-burguer-sombrio-sc.md)
+- kit de referencias dos agentes: [playbooks/paulinhos-burguer-referencias-agentes.md](playbooks/paulinhos-burguer-referencias-agentes.md)
 - prompt dedicado da marca: [.github/prompts/briefing-paulinhos-burguer.prompt.md](.github/prompts/briefing-paulinhos-burguer.prompt.md)
 - prompt de execucao por comando: [.github/prompts/post-paulinhos-comando-direto.prompt.md](.github/prompts/post-paulinhos-comando-direto.prompt.md)
 
 Com isso, voce pode iniciar as rodadas no chat com /Briefing Paulinhos Burguer e o Food Growth Master ja usa o contexto da operacao em Sombrio-SC.
+
+## Paulinhos pronto por agente
+
+O projeto agora tambem tem pontos de entrada prontos por agente para a Paulinhos Burguer:
+
+- [.github/prompts/paulinhos-food-growth-master.prompt.md](.github/prompts/paulinhos-food-growth-master.prompt.md)
+- [.github/prompts/paulinhos-consultor-ifood.prompt.md](.github/prompts/paulinhos-consultor-ifood.prompt.md)
+- [.github/prompts/paulinhos-engenheiro-cardapio.prompt.md](.github/prompts/paulinhos-engenheiro-cardapio.prompt.md)
+- [.github/prompts/paulinhos-whatsapp-delivery.prompt.md](.github/prompts/paulinhos-whatsapp-delivery.prompt.md)
+- [.github/prompts/paulinhos-promocoes-food.prompt.md](.github/prompts/paulinhos-promocoes-food.prompt.md)
+- [.github/prompts/paulinhos-google-reviews.prompt.md](.github/prompts/paulinhos-google-reviews.prompt.md)
+- [.github/prompts/paulinhos-pesquisa-mercado.prompt.md](.github/prompts/paulinhos-pesquisa-mercado.prompt.md)
+- [.github/prompts/paulinhos-estrategista.prompt.md](.github/prompts/paulinhos-estrategista.prompt.md)
+- [.github/prompts/paulinhos-copywriter.prompt.md](.github/prompts/paulinhos-copywriter.prompt.md)
+- [.github/prompts/paulinhos-conteudista.prompt.md](.github/prompts/paulinhos-conteudista.prompt.md)
+- [.github/prompts/paulinhos-design-criativo.prompt.md](.github/prompts/paulinhos-design-criativo.prompt.md)
+- [.github/prompts/paulinhos-midia-paga.prompt.md](.github/prompts/paulinhos-midia-paga.prompt.md)
+- [.github/prompts/paulinhos-crm-funil.prompt.md](.github/prompts/paulinhos-crm-funil.prompt.md)
+- [.github/prompts/paulinhos-analytics.prompt.md](.github/prompts/paulinhos-analytics.prompt.md)
+- [.github/prompts/paulinhos-seo-growth.prompt.md](.github/prompts/paulinhos-seo-growth.prompt.md)
+
+Todos esses prompts usam referencias prontas da marca e do nicho para reduzir trabalho manual e deixar cada agente ja contextualizado no estabelecimento.
 
 ## Casos de uso por operacao
 
