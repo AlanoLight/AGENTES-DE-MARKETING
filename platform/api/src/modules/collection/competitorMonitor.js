@@ -4,6 +4,7 @@ const googlePlaces = require("./googlePlacesClient");
 const instagram = require("./instagramBusinessClient");
 const adLibrary = require("./metaAdLibraryClient");
 const { buildTemporalComparisons } = require("./temporalComparison");
+const { analyzeReviews } = require("../intelligence/reviewAnalyzer");
 
 function nowIso() {
   return new Date().toISOString();
@@ -19,6 +20,27 @@ function insertSnapshot({ companyId, competitorId = null, snapshotType, source, 
     metrics_json: JSON.stringify(metrics || {}),
     raw_json: JSON.stringify(raw || {}),
     snapshot_at: nowIso()
+  });
+}
+
+function upsertCompetitorSnapshot({
+  companyId,
+  competitorName,
+  source,
+  rating = null,
+  reviewCount = 0,
+  website = null,
+  rawData = null
+}) {
+  return repo.insert("competitor_snapshots", {
+    company_id: companyId,
+    competitor_name: competitorName,
+    source,
+    rating,
+    review_count: reviewCount,
+    website,
+    captured_at: nowIso(),
+    raw_data: JSON.stringify(rawData || {})
   });
 }
 
@@ -77,6 +99,16 @@ async function runCompetitorMonitoring({ companyId, ownMenuUrl, competitorUrls =
     raw: collection.own
   });
 
+  upsertCompetitorSnapshot({
+    companyId,
+    competitorName: companyName || "operacao_propria",
+    source: "own_menu_collection",
+    rating: null,
+    reviewCount: 0,
+    website: ownMenuUrl,
+    rawData: collection.own
+  });
+
   for (const competitor of collection.competitors) {
     const comp = getOrCreateCompetitor(companyId, competitor.competitorUrl);
     insertSnapshot({
@@ -87,6 +119,16 @@ async function runCompetitorMonitoring({ companyId, ownMenuUrl, competitorUrls =
       sourceRef: competitor.competitorUrl,
       metrics: competitor.summary,
       raw: competitor
+    });
+
+    upsertCompetitorSnapshot({
+      companyId,
+      competitorName: comp.name,
+      source: "competitor_menu_collection",
+      rating: comp.rating || null,
+      reviewCount: 0,
+      website: competitor.competitorUrl,
+      rawData: competitor
     });
   }
 
@@ -117,6 +159,16 @@ async function runCompetitorMonitoring({ companyId, ownMenuUrl, competitorUrls =
         raw: place
       });
 
+      upsertCompetitorSnapshot({
+        companyId,
+        competitorName: place.name,
+        source: "google_places_collection",
+        rating: place.rating || null,
+        reviewCount: place.userRatingsTotal || 0,
+        website: place.formattedAddress || null,
+        rawData: place
+      });
+
       if (place.placeId) {
         const detailsResult = await googlePlaces.placeDetails(place.placeId);
         if (detailsResult.details) {
@@ -132,6 +184,23 @@ async function runCompetitorMonitoring({ companyId, ownMenuUrl, competitorUrls =
               reviewCount: detailsResult.details.user_ratings_total || 0
             },
             raw: detailsResult.details
+          });
+
+          upsertCompetitorSnapshot({
+            companyId,
+            competitorName: detailsResult.details.name || place.name,
+            source: "google_reviews_collection",
+            rating: detailsResult.details.rating || place.rating || null,
+            reviewCount: detailsResult.details.user_ratings_total || place.userRatingsTotal || 0,
+            website: detailsResult.details.website || detailsResult.details.url || null,
+            rawData: detailsResult.details
+          });
+
+          analyzeReviews({
+            companyId,
+            competitorName: detailsResult.details.name || place.name,
+            source: "google_places_collection",
+            reviews: detailsResult.details.reviews || []
           });
         }
       }
@@ -207,5 +276,6 @@ async function runCompetitorMonitoring({ companyId, ownMenuUrl, competitorUrls =
 }
 
 module.exports = {
-  runCompetitorMonitoring
+  runCompetitorMonitoring,
+  upsertCompetitorSnapshot
 };

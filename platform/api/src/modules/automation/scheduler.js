@@ -2,6 +2,7 @@ const cron = require("node-cron");
 const repo = require("../../db/repository");
 const { captureTrends } = require("../collection/trendHunter");
 const { generateStrategy } = require("../strategies/strategyEngine");
+const { runDailyCompetitorScan } = require("../intelligence/dailyCompetitorScan");
 
 function logJob(jobName, status, details) {
   repo.insert("automation_logs", {
@@ -12,6 +13,26 @@ function logJob(jobName, status, details) {
 }
 
 function registerAutomationJobs() {
+  // Diario: scan de concorrentes (08h, 14h, 20h)
+  cron.schedule("0 8,14,20 * * *", async () => {
+    const companies = repo.list("companies");
+    for (const company of companies) {
+      try {
+        const result = await runDailyCompetitorScan({
+          companyId: company.id,
+          companyName: company.name
+        });
+        logJob(
+          "daily_competitor_scan",
+          "ok",
+          `company=${company.id} scanned=${result.scanned} analyzed=${result.analyzed}`
+        );
+      } catch (error) {
+        logJob("daily_competitor_scan", "error", error.message);
+      }
+    }
+  });
+
   // Diario: tendencias
   cron.schedule("0 8 * * *", async () => {
     const companies = repo.list("companies");

@@ -6,8 +6,20 @@ const { compareCompetitors } = require("../modules/collection/localMarketScanner
 const { captureTrends } = require("../modules/collection/trendHunter");
 const { foodInsights } = require("../modules/food/foodServiceEngine");
 const { runCompetitorMonitoring } = require("../modules/collection/competitorMonitor");
+const { bootstrapPaulinhos } = require("../bootstrapPaulinhos");
 
 const router = express.Router();
+
+function parseJson(value, fallback) {
+  if (!value) {
+    return fallback;
+  }
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
 
 const collectSchema = z.object({
   companyId: z.number().int().positive(),
@@ -84,32 +96,95 @@ router.get("/temporal/:companyId", (req, res) => {
   res.json({ comparisons: rows });
 });
 
-router.post("/bootstrap-paulinhos", async (_req, res) => {
-  try {
-    let company = repo.list("companies", "WHERE name = ? LIMIT 1", ["Paulinhos Burguer"])[0];
+router.get("/competitor-intelligence/:companyId", (req, res) => {
+  const companyId = Number(req.params.companyId);
 
-    if (!company) {
-      company = repo.insert("companies", {
-        name: "Paulinhos Burguer",
-        city: "Sombrio",
-        state: "SC",
-        niche: "food_service_delivery",
-        instagram_url: "https://www.instagram.com/paulinhosburgueroficial/",
-        facebook_url: "",
-        ifood_url: "",
-        anota_url: "https://pedido.anota.ai/loja/paulinhos-burguer-4?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGn794V0cKLUjYGihvQ4Mw1gJsmjEe3g5qqQb9HJHsD2Zm8Z-g21cDR-nfEFkQ_aem_h3gaj4cCzxb0YjHZ3RjChw&utm_id=97760_v0_s00_e0_tv3",
-        delivery_url: "https://pedido.anota.ai/loja/paulinhos-burguer-4?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGn794V0cKLUjYGihvQ4Mw1gJsmjEe3g5qqQb9HJHsD2Zm8Z-g21cDR-nfEFkQ_aem_h3gaj4cCzxb0YjHZ3RjChw&utm_id=97760_v0_s00_e0_tv3"
-      });
+  const snapshots = repo.list(
+    "competitor_snapshots",
+    "WHERE company_id = ? ORDER BY captured_at DESC LIMIT 400",
+    [companyId]
+  );
+  const insights = repo.list(
+    "review_insights",
+    "WHERE company_id = ? ORDER BY captured_at DESC LIMIT 200",
+    [companyId]
+  );
+  const temporal = repo.list(
+    "temporal_comparisons",
+    "WHERE company_id = ? ORDER BY created_at DESC LIMIT 200",
+    [companyId]
+  );
+
+  const latestByCompetitor = new Map();
+  for (const row of snapshots) {
+    if (!latestByCompetitor.has(row.competitor_name)) {
+      latestByCompetitor.set(row.competitor_name, row);
     }
+  }
 
-    const monitor = await runCompetitorMonitoring({
-      companyId: company.id,
-      companyName: company.name,
-      ownMenuUrl: company.delivery_url,
-      competitorUrls: ["https://maisdeliveryapp.com.br/pwa/shop/detail/list/product/subcategorie/MjU1ODQ="]
-    });
+  const ranking = Array.from(latestByCompetitor.values())
+    .sort((a, b) => {
+      const scoreA = Number(a.rating || 0) * 20 + Number(a.review_count || 0) * 0.05;
+      const scoreB = Number(b.rating || 0) * 20 + Number(b.review_count || 0) * 0.05;
+      return scoreB - scoreA;
+    })
+    .slice(0, 12);
 
-    return res.json({ company, monitor });
+  const growth = temporal
+    .filter((x) => x.metric_name === "google_rating" || x.metric_name === "google_review_count")
+    .slice(0, 30);
+
+  const reviewOverview = insights.slice(0, 30).map((x) => ({
+    competitorName: x.competitor_name,
+    sentiment: x.general_sentiment,
+    reviewCount: x.review_count,
+    complaints: parseJson(x.complaints, []),
+    opportunities: parseJson(x.opportunities, []),
+    capturedAt: x.captured_at
+  }));
+
+  const trendCounts = snapshots.reduce((acc, row) => {
+    acc[row.source] = (acc[row.source] || 0) + 1;
+    return acc;
+  }, {});
+
+  const opportunities = [];
+  for (const item of reviewOverview) {
+    for (const tip of item.opportunities || []) {
+      opportunities.push({ competitorName: item.competitorName, tip });
+    }
+  }
+
+  res.json({
+    ranking,
+    reviews: reviewOverview,
+    growth,
+    trends: trendCounts,
+    opportunities: opportunities.slice(0, 20),
+    totals: {
+      snapshots: snapshots.length,
+      insights: insights.length,
+      competitors: latestByCompetitor.size
+    }
+  });
+});
+
+const bootstrapSchema = z.object({
+  instagramUrl: z.string().url().optional(),
+  siteUrl: z.string().url().optional(),
+  menuUrl: z.string().url().optional(),
+  googleMapsUrl: z.string().url().optional()
+});
+
+router.post("/bootstrap-paulinhos", async (req, res) => {
+  const parsed = bootstrapSchema.safeParse(req.body || {});
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.flatten() });
+  }
+
+  try {
+    const bootstrap = await bootstrapPaulinhos(parsed.data);
+    return res.json({ company: bootstrap.company, monitor: bootstrap.result });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

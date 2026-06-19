@@ -17,6 +17,7 @@ import {
   generateImage,
   generateStrategy,
   getCompetitorComparison,
+  getCompetitorIntelligence,
   getOverview,
   getSnapshots,
   getTemporalComparison,
@@ -29,6 +30,7 @@ export default function App() {
   const [companyId, setCompanyId] = useState(1);
   const [overview, setOverview] = useState(null);
   const [comparison, setComparison] = useState(null);
+  const [competitorIntel, setCompetitorIntel] = useState(null);
   const [snapshots, setSnapshots] = useState([]);
   const [temporalRows, setTemporalRows] = useState([]);
   const [status, setStatus] = useState("Pronto para carregar dados.");
@@ -72,6 +74,8 @@ export default function App() {
       setSnapshots(s.snapshots || []);
       const t = await getTemporalComparison(companyId);
       setTemporalRows(t.comparisons || []);
+      const intel = await getCompetitorIntelligence(companyId);
+      setCompetitorIntel(intel);
       setStatus("Visao geral atualizada.");
     } catch (error) {
       setStatus(`Falha no overview: ${error.message}`);
@@ -280,6 +284,72 @@ export default function App() {
         <div>
           <h2>Comparacao temporal</h2>
           {temporalChart ? <Bar data={temporalChart} /> : <p>Sem comparacao temporal ainda.</p>}
+        </div>
+      </section>
+
+      <section className="card">
+        <h2>Concorrentes</h2>
+        <div className="kpis competitors-kpis">
+          <article><span>Snapshots competitivos</span><strong>{competitorIntel?.totals?.snapshots ?? 0}</strong></article>
+          <article><span>Insights de reviews</span><strong>{competitorIntel?.totals?.insights ?? 0}</strong></article>
+          <article><span>Concorrentes no radar</span><strong>{competitorIntel?.totals?.competitors ?? 0}</strong></article>
+          <article><span>Tendencias mapeadas</span><strong>{Object.keys(competitorIntel?.trends || {}).length}</strong></article>
+        </div>
+
+        <div className="grid-2">
+          <div className="result-box">
+            <h3>Ranking atual</h3>
+            {(competitorIntel?.ranking || []).length ? (
+              <ul className="plain-list">
+                {competitorIntel.ranking.slice(0, 8).map((row) => (
+                  <li key={`${row.competitor_name}-${row.id}`}>
+                    <strong>{row.competitor_name}</strong>
+                    <span> | Nota: {row.rating ?? "n/d"} | Reviews: {row.review_count ?? 0}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Sem ranking consolidado ainda.</p>
+            )}
+          </div>
+
+          <div className="result-box">
+            <h3>Avaliacoes e sentimento</h3>
+            {(competitorIntel?.reviews || []).length ? (
+              <ul className="plain-list">
+                {competitorIntel.reviews.slice(0, 8).map((row, idx) => (
+                  <li key={`${row.competitorName}-${idx}`}>
+                    <strong>{row.competitorName}</strong>
+                    <span> | Sentimento: {row.sentiment} | Reviews: {row.reviewCount}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Sem analise de reviews ainda.</p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid-2">
+          <div className="result-box">
+            <h3>Crescimento e variacao</h3>
+            <pre>{JSON.stringify((competitorIntel?.growth || []).slice(0, 20), null, 2)}</pre>
+          </div>
+          <div className="result-box">
+            <h3>Oportunidades acionaveis</h3>
+            {(competitorIntel?.opportunities || []).length ? (
+              <ul className="plain-list">
+                {competitorIntel.opportunities.slice(0, 10).map((o, idx) => (
+                  <li key={`${o.competitorName}-${idx}`}>
+                    <strong>{o.competitorName}</strong>
+                    <span> | {o.tip}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Nenhuma oportunidade consolidada.</p>
+            )}
+          </div>
         </div>
       </section>
 

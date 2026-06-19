@@ -55,6 +55,10 @@ body {
   gap: 0.6rem;
 }
 
+.competitors-kpis {
+  margin-bottom: 0.9rem;
+}
+
 .kpis article {
   border: 1px solid #434b4b;
   border-radius: 10px;
@@ -111,6 +115,16 @@ button {
   border-radius: 10px;
   padding: 0.7rem;
   background: #181d1d;
+}
+
+.plain-list {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.plain-list li {
+  margin: 0.35rem 0;
+  color: #e7ded0;
 }
 
 pre {

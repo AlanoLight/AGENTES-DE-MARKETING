@@ -29,6 +29,11 @@ export async function getTemporalComparison(companyId) {
   return data;
 }
 
+export async function getCompetitorIntelligence(companyId) {
+  const { data } = await api.get(`/api/intelligence/competitor-intelligence/${companyId}`);
+  return data;
+}
+
 export async function bootstrapPaulinhos() {
   const { data } = await api.post("/api/intelligence/bootstrap-paulinhos");
   return data;
