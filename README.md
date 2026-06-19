@@ -1,114 +1,164 @@
 # AGENTES-DE-MARKETING
 
-Sistema inicial de agentes especializados para operacao de marketing, estrategia, conteudo, copy, design e otimizacao.
+Arquitetura de agentes para marketing, growth e operacao comercial, com camada generica e vertical especializada em food service.
 
 ## Objetivo
 
-Este repositorio organiza agentes com papeis claros para evitar o erro de usar um unico agente generico para tudo. Cada agente tem:
+Este repositorio organiza agentes com papeis claros para evitar um agente generico que tenta fazer tudo. Cada agente segue um contrato padrao:
 
-- uma responsabilidade definida
-- um tipo de entrada esperado
-- um formato de saida consistente
-- limites explicitos do que deve ou nao fazer
+- Objetivo
+- Quando Acionar
+- Entradas
+- Processo
+- Saida
+- Restricoes
 
-Os agentes foram criados em .github/agents para uso no workspace.
+Os agentes ficam em .github/agents. Os prompts ficam em .github/prompts. Os playbooks de nicho e marca ficam em playbooks.
 
-## Agente orquestrador
+## Arquitetura completa
 
-- Orquestrador de Marketing: recebe um briefing unico, escolhe os especialistas necessarios, chama os agentes na ordem certa e devolve um plano consolidado.
+### Camada generica
 
-## Agentes disponiveis
+- Orquestrador de Marketing: coordenador geral para demandas amplas de marketing.
+- Pesquisador de Mercado
+- Estrategista de Marketing
+- Copywriter de Conversao
+- Conteudista Editorial
+- Design Criativo
+- Especialista em Midia Paga
+- CRM e Funil
+- Analytics e Otimizacao
+- SEO Growth
 
-### Estrategia
+### Vertical food service
 
-- Estrategista de Marketing: define posicionamento, oferta, ICP, persona, angulos e estrutura de funil.
-- Pesquisador de Mercado: levanta linguagem do cliente, dores, objecoes, concorrencia e oportunidades.
+- Food Growth Master: orquestrador principal da vertical food service.
+- Consultor iFood: vitrine, CTR, cardapio, descricoes, categorias e upsell em app.
+- Engenheiro de Cardapio: ticket, margem, mix, CMV e menu engineering.
+- WhatsApp Delivery: retorno, recompra, fidelizacao e automacoes.
+- Promocoes Food: combos, upsell, cross sell e campanhas com protecao de margem.
+- Google Reviews: reputacao local, reclamacoes e plano de melhoria.
 
-### Producao
+## Fluxo de orquestracao
 
-- Copywriter de Conversao: cria headlines, anuncios, paginas, emails e variacoes para teste.
-- Conteudista Editorial: monta pautas, calendarios e adaptacoes por canal.
-- SEO Growth: organiza palavras-chave, clusters, intencao de busca e briefs organicos.
-- Design Criativo: define direcao de arte e gera prompts visuais para imagens e pecas.
+### Fluxo generico
 
-### Distribuicao e funil
+Orquestrador de Marketing
 
-- Especialista em Midia Paga: estrutura campanhas, segmentacao, anuncios e testes.
-- CRM e Funil: desenha fluxos de nutricao, follow-up, recuperacao e automacao.
+-> Pesquisador de Mercado
+-> Estrategista de Marketing
+-> Copywriter de Conversao
+-> Design Criativo
+-> Conteudista Editorial ou Especialista em Midia Paga
+-> CRM e Funil
+-> Analytics e Otimizacao
 
-### Leitura de performance
+### Fluxo food service
 
-- Analytics e Otimizacao: interpreta metricas, identifica gargalos e prioriza proximos testes.
+Food Growth Master
+
+-> Consultor iFood
+-> Engenheiro de Cardapio
+-> WhatsApp Delivery
+-> Promocoes Food
+-> Google Reviews
+-> Copywriter de Conversao
+-> Conteudista Editorial
+-> Especialista em Midia Paga
+-> CRM e Funil
+-> Analytics e Otimizacao
+
+## Handoffs e compatibilidade
+
+- O handoff principal e feito pela lista agents: dentro dos agentes orquestradores.
+- O Orquestrador de Marketing pode encaminhar casos de food service para o Food Growth Master.
+- Nenhum agente existente foi removido.
+- A camada generica continua funcional e compativel com os prompts anteriores.
 
 ## Estrutura do projeto
 
 ```text
 .github/
 	agents/
-		orquestrador-marketing.agent.md
 		analytics-otimizacao.agent.md
+		consultor-ifood.agent.md
 		conteudo-editorial.agent.md
 		copywriter-conversao.agent.md
 		crm-funil.agent.md
 		design-criativo.agent.md
+		engenheiro-cardapio.agent.md
 		estrategista-marketing.agent.md
+		food-growth-master.agent.md
+		google-reviews.agent.md
 		midia-paga.agent.md
+		orquestrador-marketing.agent.md
 		pesquisa-mercado.agent.md
+		promocoes-food.agent.md
 		seo-growth.agent.md
+		whatsapp-delivery.agent.md
 	prompts/
-		briefing-orquestrador.prompt.md
-		briefing-lancheria-food-service.prompt.md
-		briefing-paulinhos-burguer.prompt.md
-		post-paulinhos-comando-direto.prompt.md
-		briefing-pesquisa-mercado.prompt.md
-		briefing-estrategia-marketing.prompt.md
-		briefing-copywriter.prompt.md
-		briefing-conteudo-editorial.prompt.md
-		briefing-seo-growth.prompt.md
-		briefing-midia-paga.prompt.md
-		briefing-crm-funil.prompt.md
 		briefing-analytics-otimizacao.prompt.md
+		briefing-conteudo-editorial.prompt.md
+		briefing-copywriter.prompt.md
+		briefing-crm-funil.prompt.md
 		briefing-design-criativo.prompt.md
+		briefing-estrategia-marketing.prompt.md
+		briefing-food-growth-master.prompt.md
+		briefing-lancheria-food-service.prompt.md
+		briefing-midia-paga.prompt.md
+		briefing-orquestrador.prompt.md
+		briefing-paulinhos-burguer.prompt.md
+		briefing-pesquisa-mercado.prompt.md
+		briefing-seo-growth.prompt.md
+		post-paulinhos-comando-direto.prompt.md
 playbooks/
 	lancheria-hamburgueria.md
 	paulinhos-burguer-sombrio-sc.md
 ```
 
-## Fluxo recomendado
+## Lista de agentes
 
-Use os agentes em cadeia, nao de forma isolada:
+### Orquestradores
 
-Se quiser operar com um unico ponto de entrada, use primeiro o Orquestrador de Marketing. Ele decide a cadeia e consolida a resposta.
+- Food Growth Master
+- Orquestrador de Marketing
 
-1. Pesquisador de Mercado
-2. Estrategista de Marketing
-3. Copywriter de Conversao
-4. Design Criativo
-5. Conteudista Editorial ou Especialista em Midia Paga
-6. CRM e Funil
-7. Analytics e Otimizacao
+### Especialistas genericos
 
-## Exemplo de operacao
+- Pesquisador de Mercado
+- Estrategista de Marketing
+- Copywriter de Conversao
+- Conteudista Editorial
+- Design Criativo
+- Especialista em Midia Paga
+- CRM e Funil
+- Analytics e Otimizacao
+- SEO Growth
 
-Briefing bruto:
+### Especialistas food service
 
-"Tenho uma oferta para clinicas esteticas e quero gerar leads pelo Instagram e WhatsApp."
-
-Sequencia sugerida:
-
-1. Pesquisador de Mercado: mapear dores, concorrentes e linguagem.
-2. Estrategista de Marketing: definir oferta, promessa e angulos.
-3. Copywriter de Conversao: criar anuncios e mensagens.
-4. Design Criativo: gerar conceito visual e prompt de imagem.
-5. Especialista em Midia Paga: montar campanha e plano de testes.
-6. CRM e Funil: estruturar follow-up e nutricao.
-7. Analytics e Otimizacao: ler resultados e sugerir melhorias.
+- Consultor iFood
+- Engenheiro de Cardapio
+- WhatsApp Delivery
+- Promocoes Food
+- Google Reviews
 
 ## Como usar
 
-Abra o chat com o agente desejado e passe um briefing com o maximo possivel de contexto:
+Abra o chat com o agente desejado ou use um prompt da pasta .github/prompts.
 
-Se preferir, abra direto com o Orquestrador de Marketing e envie o briefing completo. Ele decide quais agentes devem entrar em seguida.
+Use o Orquestrador de Marketing para demandas gerais.
+
+Use o Food Growth Master para:
+
+- restaurantes
+- delivery
+- hamburguerias
+- pizzarias
+- lancherias
+- operacoes locais de food service
+
+Passe o maximo de contexto util:
 
 - produto ou servico
 - publico-alvo
@@ -122,24 +172,25 @@ Quanto melhor o briefing, melhor a saida de cada agente.
 
 ## Prompts de briefing
 
-O projeto agora tambem inclui prompts em .github/prompts para acelerar o uso no chat com slash command.
+O projeto inclui prompts em .github/prompts para acelerar o uso no chat com slash command.
 
+- Briefing Food Growth Master: ponto de entrada da vertical food service.
 - Briefing Orquestrador de Marketing: ponto de entrada principal para projetos novos.
-- Briefing Pesquisa de Mercado: quando faltar contexto sobre audiencia e concorrencia.
-- Briefing Estrategia de Marketing: quando a oferta e o posicionamento ainda nao estiverem fechados.
-- Briefing Copywriter de Conversao: quando a estrategia ja existir e voce quiser pecas persuasivas.
-- Briefing Conteudo Editorial: quando precisar de pauta e calendario.
-- Briefing SEO Growth: quando o foco for aquisicao organica.
-- Briefing Midia Paga: quando quiser campanha, segmentacao e testes.
-- Briefing CRM e Funil: quando a necessidade for nutricao e follow-up.
-- Briefing Analytics e Otimizacao: quando ja houver dados para leitura e melhoria.
-- Briefing Design Criativo: quando for hora de traduzir a mensagem em imagem.
+- Briefing Pesquisa de Mercado
+- Briefing Estrategia de Marketing
+- Briefing Copywriter de Conversao
+- Briefing Conteudo Editorial
+- Briefing SEO Growth
+- Briefing Midia Paga
+- Briefing CRM e Funil
+- Briefing Analytics e Otimizacao
+- Briefing Design Criativo
 
 Para usar, abra o chat, digite / e selecione o prompt desejado.
 
 ## Adaptacao por nicho
 
-O projeto agora tambem tem um playbook inicial para o seu nicho em [playbooks/lancheria-hamburgueria.md](playbooks/lancheria-hamburgueria.md).
+O projeto tem um playbook inicial para food service em [playbooks/lancheria-hamburgueria.md](playbooks/lancheria-hamburgueria.md).
 
 Esse material concentra:
 
@@ -151,27 +202,57 @@ Esse material concentra:
 - direcao visual
 - funil e recompra
 
-Se quiser entrar mais rapido no fluxo, use o prompt [briefing-lancheria-food-service.prompt.md](.github/prompts/briefing-lancheria-food-service.prompt.md), feito para lancheria, xis, hamburguer e tabuas.
+Se quiser entrar mais rapido no fluxo, use o prompt [.github/prompts/briefing-lancheria-food-service.prompt.md](.github/prompts/briefing-lancheria-food-service.prompt.md), feito para lancheria, xis, hamburguer e tabuas.
 
 ## Caso real: Paulinhos Burguer
 
-Foi adicionado um material especifico da sua marca para acelerar as campanhas:
+Foi adicionado um material especifico da marca para acelerar as campanhas:
 
 - playbook da marca: [playbooks/paulinhos-burguer-sombrio-sc.md](playbooks/paulinhos-burguer-sombrio-sc.md)
 - prompt dedicado da marca: [.github/prompts/briefing-paulinhos-burguer.prompt.md](.github/prompts/briefing-paulinhos-burguer.prompt.md)
 - prompt de execucao por comando: [.github/prompts/post-paulinhos-comando-direto.prompt.md](.github/prompts/post-paulinhos-comando-direto.prompt.md)
 
-Com isso, voce pode iniciar as rodadas no chat com /Briefing Paulinhos Burguer e o orquestrador ja usa o contexto da sua operacao em Sombrio-SC.
+Com isso, voce pode iniciar as rodadas no chat com /Briefing Paulinhos Burguer e o Food Growth Master ja usa o contexto da operacao em Sombrio-SC.
 
-### Exemplo de prompt para o orquestrador
+## Casos de uso por operacao
 
-"Tenho uma consultoria para clinicas odontologicas. Quero criar uma campanha para captar leads no Instagram e converter no WhatsApp. Minha oferta e avaliacao inicial gratuita. Quero ajuda para pesquisa, estrategia, copy, criativos e follow-up."
+### Restaurantes
 
-## Proximo passo natural
+- promocao por dia da semana
+- reputacao e reviews
+- organizacao de menu e ticket medio
 
-O projeto ja tem a base dos agentes. A evolucao mais util agora e adicionar:
+### Delivery
 
-1. prompts padrao de briefing
-2. templates de saida por agente
-3. exemplos reais de campanhas por nicho
-4. handoffs e playbooks por tipo de campanha
+- iFood
+- WhatsApp de recompra
+- oferta de horario e retorno de clientes
+
+### Hamburguerias
+
+- combinacao de burger, porcao e combo
+- criativos visuais e reels de produto
+- lancamento de burger da semana
+
+### Pizzarias
+
+- combos familia
+- oferta sazonal e data comemorativa
+- upsell de borda, bebida e sobremesa
+
+## Exemplo de uso
+
+"Tenho uma hamburgueria em bairro residencial, vendo mais no delivery e preciso melhorar cardapio no app, retorno no WhatsApp e campanhas de quinta a domingo."
+
+Resultado esperado:
+
+- Food Growth Master decide a sequencia
+- chama Consultor iFood, Promocoes Food, WhatsApp Delivery e Analytics
+- consolida tudo em um plano unico
+
+## Proximos passos naturais
+
+1. templates de saida por agente
+2. playbooks por tipo de operacao e ticket
+3. base de referencias de marketing para treinar os agentes
+4. prompts por rotina semanal da operacao

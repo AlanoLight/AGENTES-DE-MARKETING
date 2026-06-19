@@ -2,7 +2,7 @@
 name: Post Paulinhos Comando Direto
 description: "Use para executar comandos rapidos de postagem da Paulinhos Burguer, gerando legenda, conceito visual, prompt de imagem, sugestao de musica e CTA."
 argument-hint: "Exemplo: criar post do Xis Salada com oferta de hoje para Instagram Stories."
-agent: "Orquestrador de Marketing"
+agent: "Food Growth Master"
 ---
 Use o contexto oficial da marca: [Playbook Paulinhos Burguer](../../playbooks/paulinhos-burguer-sombrio-sc.md)
 

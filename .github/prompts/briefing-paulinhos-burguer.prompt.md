@@ -2,7 +2,7 @@
 name: Briefing Paulinhos Burguer
 description: "Use para criar campanhas da Paulinhos Burguer em Sombrio-SC com base no playbook da marca e foco em vender todo o cardapio e lancar produtos novos."
 argument-hint: "Informe objetivo da semana, produto foco, oferta, canal e resultado esperado."
-agent: "Orquestrador de Marketing"
+agent: "Food Growth Master"
 ---
 Use o contexto oficial da marca: [Playbook Paulinhos Burguer](../../playbooks/paulinhos-burguer-sombrio-sc.md)
 
@@ -36,6 +36,11 @@ Quando o pedido for de criacao de postagem, incluir tambem:
 
 Na orquestracao, priorize:
 
+- Consultor iFood
+- Engenheiro de Cardapio
+- WhatsApp Delivery
+- Promocoes Food
+- Google Reviews
 - Estrategista de Marketing
 - Copywriter de Conversao
 - Design Criativo

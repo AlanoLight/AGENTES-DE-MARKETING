@@ -2,7 +2,7 @@
 name: Briefing Lancheria e Hamburgueria
 description: "Use para iniciar campanhas de lancheria, xis, hamburguer, tabuas e delivery local com um briefing ja adaptado ao nicho food service."
 argument-hint: "Informe marca, cidade, produtos, ticket, canais, diferencial e objetivo da campanha."
-agent: "Orquestrador de Marketing"
+agent: "Food Growth Master"
 ---
 Use o playbook deste nicho como contexto principal: [Playbook de Lancheria e Hamburgueria](../../playbooks/lancheria-hamburgueria.md)
 
@@ -19,6 +19,11 @@ Se faltarem dados, priorize perguntar apenas:
 - objetivo imediato da campanha
 
 Na orquestracao, priorize quando fizer sentido:
+- Consultor iFood
+- Engenheiro de Cardapio
+- WhatsApp Delivery
+- Promocoes Food
+- Google Reviews
 - Estrategista de Marketing
 - Copywriter de Conversao
 - Design Criativo
