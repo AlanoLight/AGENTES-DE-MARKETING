@@ -22,6 +22,17 @@ Observacao: aparecem variacoes de numero nas referencias publicas. Confirmar num
 - Empurrar todos os produtos do cardapio.
 - Manter opcao de criar e lancar produtos novos com frequencia.
 
+## Funcionamento
+
+- Fecha nas tercas-feiras.
+- Abre as 18:30.
+- Fecha as 23:00.
+
+Diretriz de campanha:
+
+- Concentrar urgencia de oferta entre abertura e pico da noite.
+- Reforcar chamadas de ultima janela entre 22:00 e 23:00.
+
 ## Mix de produtos observado
 
 - Xis prensados e abertos
@@ -132,6 +143,30 @@ Use este fluxo com os agentes:
 - Canais principais: Instagram + link de pedido
 - Prioridade operacional: resposta rapida e oferta clara
 
+## Objetivo operacional dos agentes
+
+- Os agentes devem executar por comando direto do usuario.
+- As entregas principais por comando sao:
+	- legenda para post
+	- prompt de imagem para geracao
+	- direcao de criativo
+	- sugestao de musica para reels
+	- CTA e formato do post
+
+Modelo de comando esperado:
+
+- "cria um post para Xis Burguer Duplo com foco em delivery hoje"
+- "cria legenda + imagem + musica para divulgar tabua"
+- "quero campanha para produto novo com 3 opcoes de nome"
+
+## Referencias da marca
+
+- O usuario pode enviar artes e designs prontos para orientar os agentes.
+- Sempre que houver referencia enviada, os agentes devem:
+	- preservar estilo visual da marca
+	- adaptar copy e criativo ao objetivo da rodada
+	- evitar descaracterizar identidade ja aprovada
+
 ## Checklist de execucao para agentes
 
 - sempre definir produto foco da semana
@@ -139,3 +174,4 @@ Use este fluxo com os agentes:
 - sempre incluir CTA curto para pedido
 - sempre prever teste A/B de criativo ou oferta
 - sempre fechar com metricas e proximo ajuste
+- quando for reels, sugerir 2 a 3 opcoes de musica coerentes com o estilo da peca

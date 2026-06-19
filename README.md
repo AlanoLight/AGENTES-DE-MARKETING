@@ -59,6 +59,7 @@ Os agentes foram criados em .github/agents para uso no workspace.
 		briefing-orquestrador.prompt.md
 		briefing-lancheria-food-service.prompt.md
 		briefing-paulinhos-burguer.prompt.md
+		post-paulinhos-comando-direto.prompt.md
 		briefing-pesquisa-mercado.prompt.md
 		briefing-estrategia-marketing.prompt.md
 		briefing-copywriter.prompt.md
@@ -158,6 +159,7 @@ Foi adicionado um material especifico da sua marca para acelerar as campanhas:
 
 - playbook da marca: [playbooks/paulinhos-burguer-sombrio-sc.md](playbooks/paulinhos-burguer-sombrio-sc.md)
 - prompt dedicado da marca: [.github/prompts/briefing-paulinhos-burguer.prompt.md](.github/prompts/briefing-paulinhos-burguer.prompt.md)
+- prompt de execucao por comando: [.github/prompts/post-paulinhos-comando-direto.prompt.md](.github/prompts/post-paulinhos-comando-direto.prompt.md)
 
 Com isso, voce pode iniciar as rodadas no chat com /Briefing Paulinhos Burguer e o orquestrador ja usa o contexto da sua operacao em Sombrio-SC.
 

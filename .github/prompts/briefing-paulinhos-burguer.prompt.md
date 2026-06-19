@@ -11,6 +11,8 @@ Crie um plano integrado para a Paulinhos Burguer considerando:
 - vender todos os produtos do cardapio ao longo do ciclo
 - manter espaco para criacao e lancamento de produto
 - priorizar Instagram e link de pedido para conversao
+- operar no horario da marca (18:30 as 23:00, fechado na terca)
+- executar por comando do usuario para gerar conteudo pratico de postagem
 
 Briefing da rodada:
 
@@ -23,6 +25,14 @@ Se faltarem dados, pergunte apenas o essencial:
 - verba de midia (se houver)
 - meta da semana
 - restricao operacional
+
+Quando o pedido for de criacao de postagem, incluir tambem:
+
+- legenda
+- conceito visual
+- prompt de imagem
+- sugestao de musica
+- CTA de pedido
 
 Na orquestracao, priorize:
 
