@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paulinhos Agent Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="dashboard">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Cockpit Local</p>
+        <h1>Paulinhos Agent Desk</h1>
+        <p class="topbar-copy">Abas por agente, selecao visivel e montador de prompt organizado para uso rapido no dia a dia.</p>
+      </div>
+      <div class="topbar-status">
+        <article>
+          <span>Total de agentes</span>
+          <strong id="totalAgents">0</strong>
+        </article>
+        <article>
+          <span>Marca ativa</span>
+          <strong>Paulinhos Burguer</strong>
+        </article>
+        <article>
+          <span>Horario</span>
+          <strong>18:30 - 23:00</strong>
+        </article>
+      </div>
+    </header>
+
+    <section class="tabbar-wrap">
+      <div class="tabbar-head">
+        <h2>Agentes</h2>
+        <p>Abas tipo navegador. Clique para trocar de agente.</p>
+      </div>
+      <nav class="agent-tabs" id="agentTabs"></nav>
+    </section>
+
+    <section class="quick-row">
+      <h2>Acesso rapido</h2>
+      <div class="quick-actions" id="quickActions"></div>
+    </section>
+
+    <section class="layout-grid">
+      <article class="card card-agent">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Agente selecionado</p>
+            <h3 id="agentTitle">Food Growth Master</h3>
+          </div>
+          <span class="agent-badge" id="agentCategory">Orquestrador</span>
+        </div>
+
+        <p class="lead" id="agentDescription"></p>
+
+        <div class="detail-grid">
+          <section>
+            <h4>Quando usar</h4>
+            <ul id="agentUseCases"></ul>
+          </section>
+          <section>
+            <h4>Entregas</h4>
+            <ul id="agentOutputs"></ul>
+          </section>
+        </div>
+
+        <section class="chip-section">
+          <h4>Referencias prontas</h4>
+          <div class="chip-wrap" id="agentReferences"></div>
+        </section>
+
+        <section class="chip-section">
+          <h4>Comandos sugeridos</h4>
+          <div class="chip-wrap" id="agentCommands"></div>
+        </section>
+      </article>
+
+      <article class="card card-builder">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Passo 1</p>
+            <h3>Montador de prompt</h3>
+          </div>
+        </div>
+
+        <form id="promptForm" class="prompt-form">
+          <div class="form-step">
+            <h4>Objetivo e produto</h4>
+            <label>
+              Objetivo da rodada
+              <input type="text" id="goalInput" placeholder="Ex.: vender mais combos hoje a noite">
+            </label>
+
+            <div class="form-row">
+              <label>
+                Produto foco
+                <input type="text" id="productInput" placeholder="Ex.: Xis burguer duplo">
+              </label>
+              <label>
+                Formato
+                <select id="formatInput">
+                  <option value="Feed">Feed</option>
+                  <option value="Story">Story</option>
+                  <option value="Reels">Reels</option>
+                  <option value="Campanha">Campanha</option>
+                  <option value="Diagnostico">Diagnostico</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-step">
+            <h4>Canal e oferta</h4>
+            <div class="form-row">
+              <label>
+                Oferta
+                <input type="text" id="offerInput" placeholder="Ex.: combo com batata e mini refri">
+              </label>
+              <label>
+                Canal
+                <select id="channelInput">
+                  <option value="Instagram">Instagram</option>
+                  <option value="WhatsApp">WhatsApp</option>
+                  <option value="Link de pedido">Link de pedido</option>
+                  <option value="iFood">iFood</option>
+                  <option value="Google">Google</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-step">
+            <h4>Contexto extra</h4>
+            <label>
+              Observacoes da rodada
+              <textarea id="contextInput" rows="4" placeholder="Ex.: usar linguagem de oportunidade, destacar queijo e bacon, focar em pedido imediato."></textarea>
+            </label>
+          </div>
+
+          <div class="form-step">
+            <h4>Links oficiais da operacao</h4>
+            <div class="form-row">
+              <label>
+                Instagram
+                <input type="url" id="instagramLinkInput" placeholder="https://www.instagram.com/sua-marca/">
+              </label>
+              <label>
+                Facebook
+                <input type="url" id="facebookLinkInput" placeholder="https://www.facebook.com/sua-marca">
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                iFood
+                <input type="url" id="ifoodLinkInput" placeholder="https://www.ifood.com.br/...">
+              </label>
+              <label>
+                Anota AI
+                <input type="url" id="anotaLinkInput" placeholder="https://pedido.anota.ai/...">
+              </label>
+            </div>
+            <label>
+              Link de delivery principal
+              <input type="url" id="deliveryLinkInput" placeholder="https://...">
+            </label>
+          </div>
+
+          <div class="button-row">
+            <button type="button" class="btn btn-ghost" id="fillExampleButton">Preencher exemplo</button>
+            <button type="button" class="btn btn-primary" id="generateButton">Gerar prompt</button>
+            <button type="button" class="btn btn-secondary" id="copyButton">Copiar prompt</button>
+            <button type="button" class="btn btn-clear" id="clearButton">Limpar</button>
+          </div>
+        </form>
+      </article>
+
+      <article class="card card-output">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Passo 2</p>
+            <h3>Prompt final</h3>
+          </div>
+        </div>
+        <textarea id="promptOutput" class="output-box" spellcheck="false"></textarea>
+      </article>
+
+      <article class="card card-reference">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Biblioteca</p>
+            <h3>Contexto rapido da marca</h3>
+          </div>
+        </div>
+
+        <div class="reference-columns">
+          <section>
+            <h4>Linhas de venda</h4>
+            <ul id="salesLines"></ul>
+          </section>
+          <section>
+            <h4>Angulos base</h4>
+            <ul id="angleList"></ul>
+          </section>
+          <section>
+            <h4>Links uteis</h4>
+            <ul class="link-list">
+              <li><a href="../playbooks/paulinhos-burguer-sombrio-sc.md" target="_blank" rel="noreferrer">Playbook da marca</a></li>
+              <li><a href="../playbooks/paulinhos-burguer-referencias-agentes.md" target="_blank" rel="noreferrer">Kit de referencias</a></li>
+              <li><a href="https://www.instagram.com/paulinhosburgueroficial/" target="_blank" rel="noreferrer">Instagram</a></li>
+              <li><a href="https://pedido.anota.ai/loja/paulinhos-burguer-4?f=msa" target="_blank" rel="noreferrer">Link de pedido</a></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="card card-data">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Dados Reais</p>
+            <h3>Dashboard por agente de analise e pesquisa</h3>
+          </div>
+        </div>
+
+        <div class="data-toolbar">
+          <label>
+            Agente analitico
+            <select id="analysisAgentSelect"></select>
+          </label>
+          <label>
+            Coluna da metrica
+            <select id="metricFieldSelect"></select>
+          </label>
+          <label>
+            Tipo de grafico
+            <select id="chartTypeSelect">
+              <option value="bar">Barras</option>
+              <option value="line">Linha</option>
+              <option value="radar">Radar</option>
+            </select>
+          </label>
+          <label>
+            Metodologia
+            <select id="methodSelect">
+              <option value="avg">Media por item</option>
+              <option value="sum">Soma por item</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="upload-grid">
+          <section>
+            <h4>Meu cardapio / operacao</h4>
+            <input id="myDataFile" type="file" accept=".csv,.json">
+            <p class="hint">Arquivo local com dados reais da sua operacao.</p>
+          </section>
+          <section>
+            <h4>Concorrencia</h4>
+            <input id="competitorDataFile" type="file" accept=".csv,.json">
+            <p class="hint">Arquivo local com dados reais coletados dos concorrentes.</p>
+          </section>
+          <section>
+            <h4>Estrutura esperada</h4>
+            <div class="needed-box" id="neededFields"></div>
+          </section>
+        </div>
+
+        <div class="upload-grid">
+          <section>
+            <h4>Meu link de dados</h4>
+            <input id="myDataLink" type="url" placeholder="https://.../dados.csv ou .json">
+            <p class="hint">Funciona melhor com CSV/JSON publico (Google Sheets publicado, raw GitHub, etc).</p>
+          </section>
+          <section>
+            <h4>Link de dados concorrencia</h4>
+            <input id="competitorDataLink" type="url" placeholder="https://.../concorrencia.csv ou .json">
+            <p class="hint">Se a plataforma bloquear acesso direto, eu te mostro o que copiar e colar.</p>
+          </section>
+          <section>
+            <h4>Status de coleta por link</h4>
+            <div class="needed-box" id="linkStatusBox">Aguardando links para coleta.</div>
+          </section>
+        </div>
+
+        <div class="button-row">
+          <button type="button" class="btn btn-primary" id="renderDashboardButton">Gerar dashboard real</button>
+          <button type="button" class="btn btn-secondary" id="loadFromLinksButton">Carregar por links</button>
+          <button type="button" class="btn btn-secondary" id="downloadTemplateButton">Baixar template CSV</button>
+        </div>
+
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <div class="chart-wrap">
+          <canvas id="analysisChart" aria-label="Grafico comparativo" role="img"></canvas>
+        </div>
+
+        <div class="insight-box">
+          <h4>Leitura automatica</h4>
+          <ul id="analysisInsights"></ul>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -130,11 +130,6 @@ playbooks/
 	lancheria-hamburgueria.md
 	paulinhos-burguer-referencias-agentes.md
 	paulinhos-burguer-sombrio-sc.md
-dashboard/
-	index.html
-	styles.css
-	app.js
-	README.md
 ```
 
 ## Lista de agentes
@@ -293,46 +288,6 @@ Resultado esperado:
 - Food Growth Master decide a sequencia
 - chama Consultor iFood, Promocoes Food, WhatsApp Delivery e Analytics
 - consolida tudo em um plano unico
-
-## Dashboard local
-
-O projeto agora tambem inclui um dashboard local em [dashboard/index.html](dashboard/index.html) para operar os agentes com mais rapidez.
-
-Esse painel foi pensado como cockpit visual da Paulinhos Burguer e inclui:
-
-- navegacao por agente
-- referencias prontas da marca
-- atalhos operacionais
-- geracao de prompt por rodada
-- copia rapida do comando final para uso no chat
-- entrada de links oficiais (Instagram, Facebook, iFood, Anota AI e delivery)
-- dashboard de comparacao com dados reais por upload ou por links CSV/JSON
-
-### Modo links (recomendado)
-
-Se voce prefere trabalhar por links, o dashboard agora aceita:
-
-- links oficiais da operacao para enriquecer briefing de todos os agentes
-- link de dados da sua operacao e link de dados da concorrencia para gerar grafico comparativo
-
-Fluxo rapido:
-
-1. Cole os links da marca no Montador de Prompt.
-2. No bloco Dados Reais, escolha o agente analitico e a metrica.
-3. Cole 2 links de dados (seu e concorrencia) e clique em Carregar por links.
-4. Gere o dashboard comparativo com KPI + grafico.
-
-Observacao tecnica:
-
-- links privados ou plataformas com bloqueio de leitura direta podem impedir coleta automatica no navegador.
-- quando isso acontecer, exporte CSV/JSON da plataforma e use upload local, ou compartilhe os dados comigo para eu adaptar o parser.
-
-Arquivos do dashboard:
-
-- [dashboard/index.html](dashboard/index.html)
-- [dashboard/styles.css](dashboard/styles.css)
-- [dashboard/app.js](dashboard/app.js)
-- [dashboard/README.md](dashboard/README.md)
 
 ## Proximos passos naturais
 
